@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap');
+        
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+            color: #fff;
+        }
+        html {
+  scroll-behavior: smooth;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #222;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 15px rgba(255, 152, 0, 0.5);
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    z-index: 2000; /* Ensures it appears above the header */
+    max-height: 80vh; /* Prevents excessive height */
+    overflow-y: auto; /* Enables scrolling if content is large */
+}
+        header {
+            background: #1f1f1f;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #ff9800;
+        }
+
+        section {
+            padding: 30px 20px;
+            margin: 120px auto 40px;
+            width: 80%;
+            background: #1e1e1e;
+            border-radius: 8px;
+            box-shadow: 0px 0px 15px rgba(255, 152, 0, 0.3);
+        }
+
+        .grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+        .card {
+            position: relative;
+            background: #333;
+            margin-bottom: 10px;
+            margin-right: 4px;
+            padding: 20px;
+            box-shadow: 0px 5px 15px rgba(255, 152, 0, 0.5);
+            text-align: center;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .card img {
+            width: 100%;
+            max-width: 150px;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #222;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 15px rgba(255, 152, 0, 0.5);
+            width: 50%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .modal img {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        .modal.show {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .close-btn {
+            background: #ff9800;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+        .close-btn:hover {
+            background: #e68900;
+        }
+
+        .about-container {
+
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, #333, #222);
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(255, 152, 0, 0.6);
+            animation: fadeInUp 1s ease-in-out;
+            max-width: 1050px;
+            /* Ensures it doesn't stretch too much */
+            margin: auto;
+            /* Centers the container */
+        }
+
+        .about-container h2 {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #ff9800;
+        }
+
+        .about-container p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            opacity: 0;
+            animation: fadeIn 1.2s ease-in-out forwards;
+            color: #ddd;
+        }
+        #contact {
+    max-width: 1080px;
+    margin: 50px auto;
+    padding: 30px;
+    background: linear-gradient(135deg, #222, #333);
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(255, 152, 0, 0.6);
+    text-align: center;
+    animation: fadeInUp 1s ease-in-out;
+}
+
+#contact h2 {
+    font-size: 2em;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+    color: #ddd;
+}
+
+.contact-item i {
+    font-size: 1.5em;
+    margin-right: 10px;
+    color: #ff9800;
+}
+
+#contact a {
+    color: #ff9800;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+}
+.more-content {
+    display: none;
+}
+
+.toggle-btn {
+    background-color: #ff9800;
+    color: white;
+    border: none;
+    
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.toggle-btn:hover {
+    background-color: #e68900;
+}
+label {
+    background-color: rgba(255, 152, 0, 0.1); /* Very light orange tint */
+    padding: 2px 5px;
+    border-radius: 3px; /* Optional: adds rounded corners */
+    border-bottom: 2px solid #ccc; /* Light grey underline */
+    padding-bottom: 2px; /* Space between text and underline */
+    outline: none;
+    border: none;
+    background: none;
+    color: inherit; /* Ensures the text color matches the surrounding content */
+    font-weight: bold; /* Optional: makes the label text stand out */
+}
+
+    .category-label {
+    display: inline-block;
+    font-size: 0.9em;
+    font-weight: bold;
+    color: #ff9800; /* Orange text color */
+    border-bottom: 2px solid #ff9800; /* Subtle underline */
+    padding-bottom: 2px; /* Space between text and underline */
+    margin-top: 10px; /* Space above the label */
+}
+
+
+.card-content {
+    margin-bottom: 10px;
+}
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+    position: relative;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 5px 0;
+    display: inline-block;
+    position: relative;
+}
+
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #ff9800;
+    transform-origin: bottom right;
+    transition: transform 0.3s ease-out;
+}
+
+nav ul li a:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+/* Styling for the name */
+.name {
+    position: relative;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+/* Underline effect */
+.name::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 100%;
+    height: 2px;
+    background-color: #ff9800;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+}
+
+/* Hover effect */
+.name:hover {
+    color: #ff9800;
+}
+
+.name:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+
+
+
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+    <script>
+        function showModal(title, imageSrc, content, keyPoints) {
+            const modal = document.getElementById("modal");
+            document.getElementById("modal-title").innerText = title;
+            document.getElementById("modal-image").src = imageSrc;
+            document.getElementById("modal-content").innerText = content;
+            document.getElementById("modal-keypoints").innerText = keyPoints;
+            modal.classList.add("show");
+        }
+        function closeModal() {
+            document.getElementById("modal").classList.remove("show");
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+    const toggleBtn = document.querySelector('.toggle-btn');
+    const moreContent = document.querySelector('.more-content');
+
+    // toggleBtn.addEventListener('click', function () {
+    //     if (moreContent.style.display === 'none' || moreContent.style.display === '') {
+    //         moreContent.style.display = 'block';
+    //         toggleBtn.textContent = 'Show Less';
+    //     } else {
+    //         moreContent.style.display = 'none';
+    //         toggleBtn.textContent = 'Show More';
+    //     }
+    // });
+});
+function toggleContent(event, btn) {
+    event.stopPropagation(); // Prevents the click from reaching the parent elements
+    const moreContent = btn.previousElementSibling;
+    if (moreContent.style.display === 'none' || moreContent.style.display === '') {
+        moreContent.style.display = 'block';
+        btn.textContent = 'Show Less';
+    } else {
+        moreContent.style.display = 'none';
+        btn.textContent = 'Show More';
+    }
+}
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1 class="name">Archit Sharma</h1>
+        <nav>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#certificates">Certificates</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <section id="about" class="about-container">
+        <h2>About Me</h2>
+        <p>
+            I am a passionate <strong>Full Stack Developer</strong> with expertise in building scalable web applications
+            and cloud-based solutions.
+            Currently, I am also expanding my knowledge as an <strong>Aspiring Cloud Developer</strong>, diving deeper
+            into AWS, Azure, and DevOps practices.
+        </p>
+        <p>
+            My journey includes working on <strong>AI/ML projects</strong> where I develop intelligent systems
+            leveraging data science and predictive analytics.
+            Additionally, I am proficient in <strong>Observability Tools</strong> like Grafana, Loki, and Prometheus to
+            enhance system monitoring and performance tracking.
+        </p>
+        <p>
+            I am always eager to explore new technologies and thrive on solving challenging problems with innovative
+            solutions.
+            Let’s connect and collaborate!
+        </p>
+    </section>
+
+    <section id="projects">
+        <h2>Projects</h2>
+        <div class="grid-container">
+            <div class="card" onclick="window.open('https://github.com/archit2105/BookStore', '_blank')">
+                <div class="card-content">
+                    <h3>Full Stack Bookstore Application</h3>
+                    <p>Developed a comprehensive bookstore application utilizing AngularJS, Node.js, Express.js, and MongoDB.</p>
+                    <div class="more-content" style="display: none;">
+                        <p>This application allows users to browse, search, and purchase books, manage their accounts, and provides administrative functionalities for inventory management.</p>
+                        <p><strong>Technologies Used:</strong> AngularJS, Node.js, Express.js, MongoDB</p>
+                        <p><strong>Key Features:</strong></p>
+                        <ul>
+                            <li>User authentication and authorization</li>
+                            <li>Book catalog with search and filter capabilities</li>
+                            <li>Shopping cart and order management</li>
+                            <li>Admin panel for inventory and user management</li>
+                        </ul>
+                    </div>
+                    <button class="toggle-btn" onclick="toggleContent(event, this)">Show More</button>
+                </div>
+                <div class="category-label">Full Stack Development</div>
+            </div>
+            
+        </div>
+    </section>
+    
+    
+
+    <section id="certificates">
+        <h2>Certificates</h2>
+        <div class="grid-container">
+            <div class="card"
+                onclick="showModal('AZ-900 Microsoft Azure Fundamental', './images/certificate1.png', 'Microsoft Azure certification covering cloud concepts, security, compliance, and pricing.', 'Cloud Basics, Security & Compliance, Azure Pricing')">
+                <img src="./images/certificate1.png" alt="Certificate 1">
+                <h3>AZ-900 Microsoft Azure Fundamental</h3>
+                <p>Microsoft</p>
+            </div>
+            <div class="card"
+                onclick="showModal('AWS Cloud Practitioner', './images/certificate2.png', 'AWS certification covering cloud computing, pricing, and architecture.', 'AWS Basics, Pricing, Cloud Computing')">
+                <img src="./images/certificate2.png" alt="Certificate 2">
+                <h3>AWS Cloud Practitioner</h3>
+                <p>AWS</p>
+            </div>
+            <div class="card"
+            onclick="showModal('MB-910 Microsoft Certified: Dynamics 365 Fundamentals', 
+            './images/certificate1.png', 
+            'Microsoft certification covering the core capabilities of Dynamics 365 CRM applications, including sales, customer service, marketing, and field service.', 
+            'CRM Basics, Sales & Customer Service, Marketing, Field Service')">
+            <img src="./images/certificate1.png" alt="Certificate 3">
+            <h3>Microsoft Certified: Dynamics 365 Fundamentals</h3>
+            <p>Microsoft</p>
+        </div>
+
+        <div class="card"
+    onclick="showModal('GitHub Foundation Certification', './images/certificate3.png', 'The GitHub Foundation Certification validates your understanding of essential GitHub functionalities, including repository creation, branching strategies, pull requests, and collaboration workflows. It ensures proficiency in version control and effective team collaboration using GitHub.', 'Version Control, Repository Management, Collaboration Workflows')">
+    <img src="./images/certificate3.png" alt="Certificate GitHub Foundation">
+    <h3>GitHub Foundation Certification</h3>
+    <p>GitHub</p>
+</div>
+
+<div class="card"
+    onclick="showModal('GitHub Copilot Certification', './images/certificate3.png', 'The GitHub Copilot Certification assesses your ability to utilize GitHub’s AI-powered code completion tool effectively. It covers responsible AI usage, prompt engineering, data handling, and integrating Copilot into development workflows to enhance coding efficiency.', 'AI Assistance, Prompt Engineering, Responsible AI Usage, Workflow Integration')">
+    <img src="./images/certificate3.png" alt="Certificate GitHub Copilot">
+    <h3>GitHub Copilot Certification</h3>
+    <p>GitHub</p>
+</div>
+
+<div class="card"
+    onclick="showModal('GitHub Administration Certification', './images/certificate3.png', 'The GitHub Administration Certification focuses on managing GitHub organizations and repositories. It includes topics such as user permissions, security best practices, repository policies, and audit log monitoring to ensure efficient and secure administration of GitHub environments.', 'Organization Management, Security Best Practices, Repository Policies, Audit Log Monitoring')">
+    <img src="./images/certificate3.png" alt="Certificate GitHub Administration">
+    <h3>GitHub Administration Certification</h3>
+    <p>GitHub</p>
+</div>
+
+        
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Contact Me</h2>
+        <div class="contact-item">
+            <i class="fas fa-envelope"></i>
+            <span>Email: <a href="mailto:architsharma755@gmail.com">architsharma755@gmail.com</a></span>
+        </div>
+        <div class="contact-item">
+            <i class="fas fa-phone"></i>
+            <span>Phone: <a href="tel:+918755701264">+91 8755701264</a></span>
+        </div>
+        <div class="contact-item">
+            <i class="fab fa-github"></i>
+            <span>GitHub: <a href="https://github.com/archit2105" target="_blank">archit2105</a></span>
+        </div>
+        <div class="contact-item">
+            <i class="fab fa-linkedin"></i>
+            <span>LinkedIn: <a href="https://www.linkedin.com/in/archit-sharma-409846182" target="_blank">Archit Sharma</a></span>
+        </div>
+    </section>
+    
+
+    <div id="modal" class="modal">
+        <img id="modal-image" src="" alt="Certificate">
+        <h2 id="modal-title"></h2>
+        <p id="modal-content"></p>
+        <p><strong>Key Points:</strong> <span id="modal-keypoints"></span></p>
+        <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+</body>
+
+</html>
